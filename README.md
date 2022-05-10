@@ -46,28 +46,30 @@ We will start by creating an Azure Function app to query Copernicus Open Access 
 6. Using this information, Visual Studio Code generates an Azure Functions project with an HTTP trigger. You can view the local project files in the Explorer.
 
 # Configure the python function
-The python script is now ready to be configured to suit our purpose. We will configure the python script `__init__.py` before deploying it as an Azure function.
+The python script is now ready to be configured to suit our purpose. The following instructions outline how to the python script `__init__.py` before deploying it as an Azure function, however, I have added my copy for your convenience, but you will still need to change the **username123** and **password123** fields, as well as the `requirements.txt` file. 
+
+This is what it looks like to start:  
 <img src="https://user-images.githubusercontent.com/53897474/167694888-00a97e1a-ea5c-4a34-94fa-fc7e15f1be79.png" width="900">
 
-1. Add the module `sentinelsat`, which is the module that connects to the Copernicus Open Data Hub. At the top of `__init__.py`, add the following code:
+1. Add the module `sentinelsat`, which is the module that connects to the Copernicus Open Data Hub. At `line 5` add the following code:
    ```
    from sentinelsat import SentinelAPI
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167697641-0f2b8a66-db47-4281-924e-9de574348d05.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/167697641-0f2b8a66-db47-4281-924e-9de574348d05.png" width="900">
 
 2. Add the required modules into the `requirements.txt` file so that the environment will download these modules when running the function. We need the `pandas` module in order to sort through the results from querying the map list later on. In the `requirements.txt` file, add the following statement:
    ```
    sentinelsat
    pandas
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167697804-e74271ce-6401-4c4d-8a7c-b199e7f5ffd5.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/167697804-e74271ce-6401-4c4d-8a7c-b199e7f5ffd5.png" width="900">
 
-3. Connect to Copernicus Open Access Hub with your login credentials using the API. Add the following statement and replace `username123` and `password123` with your own details:
+3. Connect to Copernicus Open Access Hub with your login credentials using the API. At `line 20`, add the following statement and replace **username123** and **password123** with your own details:
    ```
    # login to Copernicus
    api = SentinelAPI('username123', 'password123', 'https://apihub.copernicus.eu/apihub')
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167698858-81462527-3464-4388-a30f-ae4d827f3f68.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/167698858-81462527-3464-4388-a30f-ae4d827f3f68.png" width="900">
 
 4. Add the following statement:
    ```
@@ -76,7 +78,7 @@ The python script is now ready to be configured to suit our purpose. We will con
    products = api.query(footprint="intersects({})".format(latlong),
                        date=('NOW-5DAYS', 'NOW'))
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167702879-639c75ea-0963-4c89-99bc-88ebef5138fd.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/167702879-639c75ea-0963-4c89-99bc-88ebef5138fd.png" width="900">
 
 5. Add the following statement:
    ```
@@ -90,7 +92,7 @@ The python script is now ready to be configured to suit our purpose. We will con
    top_one = sort.head(1)
    map_id = top_one.index.values
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167703074-3e854acd-1f3d-48c7-9786-b9257fcdb519.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/167703074-3e854acd-1f3d-48c7-9786-b9257fcdb519.png" width="900">
 
 6. Add the following statement:
    ```
@@ -104,34 +106,33 @@ The python script is now ready to be configured to suit our purpose. We will con
    ingestion_date = map_metadata['Ingestion Date']
    quicklook_url = map_metadata['quicklook_url']
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167703560-33013e31-0eff-4420-b432-51c5417bdc4a.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/167703560-33013e31-0eff-4420-b432-51c5417bdc4a.png" width="900">
 
    
 7. Add the following statement:
    ```
    return func.HttpResponse(f'{{"map_id":"{map_id}","title":"{title}","size":"{size}","date":"{date}","url":"{url}","creation_date":"{creation_date}","ingestion_date":"{ingestion_date}","quicklook_url":"{quicklook_url}"}}')
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167703761-011c82fb-7f1e-4713-b1da-8eafcb08b714.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/167703761-011c82fb-7f1e-4713-b1da-8eafcb08b714.png" width="900">
 
 8. Press F5 to run and start debugging. If all goes well, it should look like the following image:
-   <img src="https://user-images.githubusercontent.com/53897474/167704312-9bb36e73-3a73-4bd9-bf72-ac8a87a79589.png" width="900">  
+<img src="https://user-images.githubusercontent.com/53897474/167704312-9bb36e73-3a73-4bd9-bf72-ac8a87a79589.png" width="900">  
    I sometimes run into the problem of VSC being unable to load the correct Python version (3.9.12) despite setting version already. I simply press F5 to run and start debugging a couple more times until it works again. 
    
 9. Now that the function is running locally, go back to the Azure extension, and run the CopernicusFunction HTTP trigger. 
-   <img src="https://user-images.githubusercontent.com/53897474/167705136-2dc7cf2d-4b07-4362-93aa-b607a4b27c2a.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/167705136-2dc7cf2d-4b07-4362-93aa-b607a4b27c2a.png" width="900">
 
-10. Replace **Azure** with the test coordinates **73.000, -123.000** and press Enter to see if the function works. 
-   <img src="https://user-images.githubusercontent.com/53897474/167705247-10b13bdb-ae9c-420b-9496-9a6a5e8b0d28.png" width="900">
+10. Replace **"Azure"** with some test coordinates such as **"73.000, -123.000"** and press Enter to see if the function works. 
+<img src="https://user-images.githubusercontent.com/53897474/167705247-10b13bdb-ae9c-420b-9496-9a6a5e8b0d28.png" width="900">
 
 11. The function queries Copernicus successfully. Click the **Deploy to Function App** button to deploy it to Azure as a Function App. You can create a new Function App in Azure, or overwrite an existing one.
-   <img src="https://user-images.githubusercontent.com/53897474/167706032-1e3c572a-b7e4-476b-af3b-ce5c64e2aa0e.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/167706032-1e3c572a-b7e4-476b-af3b-ce5c64e2aa0e.png" width="900">
 
 12. Done! You have successfully created an Azure Function App from a python script!
 
 
-   
 # Create a Logic App
-Now we will create a logic app 
+Now we will create a logic app. 
 1. In the Azure portal, select **Create a resource**. 
 2. Type **Logic app** in the search box and select it from the drop-down list. 
 3. On the Logic app overview page, select **Create**
@@ -143,21 +144,23 @@ Now we will create a logic app
 * **Region**: Use the same location as your resource group.
 * **Enable log analytics**: Select **No**
 * **Plan type**: Select **Consumption**
-
-<img src="https://user-images.githubusercontent.com/53897474/167044055-bd428dd2-c926-423c-8878-46029cd6ddb3.png" width="200" height="200">
+<img src="https://user-images.githubusercontent.com/53897474/167044055-bd428dd2-c926-423c-8878-46029cd6ddb3.png" width="600">
 
 5. Select **Review + Create**, and then **Create**.
 
-### Configure the Logic App
+# Configure the Logic App
+Now we will configure the Logic App to receive the message payload from your Azure IoT Hub. 
 1. Open the Logic App.
-2. Scroll down and select **Blank Logic App**
+2. Scroll down and select **When a HTTP request is received**.
+<img src="https://user-images.githubusercontent.com/53897474/167739956-fe95c36a-e7b6-47bb-9674-1bb1669787d4.png" width="600">  
 3. On the top toolbar, select **Code view**.
-4. Replace the existing code with the code from **logic_app_code.txt**. 
+<img src="https://user-images.githubusercontent.com/53897474/167740066-5624ed96-5c25-4138-ba30-df846f138b7e.png" width="600">  
+4. Replace the existing code with the code from **logic_app.txt**. 
 5. At the top toolbar, select **Save**.
 6. At the top toolbar, select **Designer** to open the design view.
 7. Select the first block, the Trigger, to open it.
 8. Copy the **HTTP POST URL**. We will need it for the next step.  
-<img src="https://user-images.githubusercontent.com/53897474/167047536-f6fed635-8d10-4ec4-ae65-896e5c93d189.png" width="200" height="200">
+<img src="https://user-images.githubusercontent.com/53897474/167047536-f6fed635-8d10-4ec4-ae65-896e5c93d189.png" width="600">
 9. Navigate back to your Azure Portal home screen.
 
 ### Create a subscription event
