@@ -28,46 +28,46 @@ The list of steps is as follows:
 9. Basic knowledge of Python is an asset
 
 # Create a python function to query Copernicus
-We will start by creating an Azure Function to query Copernicus Open Access Hub. Microsoft Azure allows us to create Azure Functions using Python scripts as long as we use the specific Visual Studio Code extensions. 
+We will start by creating an Azure Function app to query Copernicus Open Access Hub. Microsoft Azure allows us to create Azure Functions deployed from a Python script as long as we use the specific Visual Studio Code extensions. 
 
 1. Open Visual Studio Code (VSC)
 2. If you have trouble opening VSC, you can also right click on a basic text file and open with VSC.
-* <img src="https://user-images.githubusercontent.com/53897474/167527349-f34fb553-9255-4fee-9555-ca0b61181d73.png" width="200" height="200">
+   <img src="https://user-images.githubusercontent.com/53897474/167527349-f34fb553-9255-4fee-9555-ca0b61181d73.png" width="400">
 3. Choose the Azure icon in the Activity bar, then in the Azure: Functions area, select the Create new project... icon.
-4. <img src="https://user-images.githubusercontent.com/53897474/167529854-452b2a1f-84e8-4ba8-8435-76e99f2729f3.png" width="200" height="200">
-5. Choose a folder location for your project workspace and choose Select. It is recommended that you create a new folder or choose an empty folder as the project workspace.
-6. Provide the following information at the prompts:
+   <img src="https://user-images.githubusercontent.com/53897474/167529854-452b2a1f-84e8-4ba8-8435-76e99f2729f3.png" width="400">
+4. Choose a folder location for your project workspace and choose Select. It is recommended that you create a new folder or choose an empty folder as the project workspace.
+5.  Provide the following information at the prompts:
    *  Select a language for your function project: Choose **Python**.
    *  Select a Python alias to create a virtual environment: Choose the location of your Python interpreter.
    *  Select a template for your project's first function: Choose **HTTP trigger**.
    *  Provide a function name: Type **CopernicusFunction**.
    *  Authorization level: Choose **Anonymous**, which enables anyone to call your function endpoint.
    *  Select how you would like to open your project: Choose **Add to workspace**.
-7. Using this information, Visual Studio Code generates an Azure Functions project with an HTTP trigger. You can view the local project files in the Explorer.
+6. Using this information, Visual Studio Code generates an Azure Functions project with an HTTP trigger. You can view the local project files in the Explorer.
 
 # Configure the python function
-The project is now ready for configuration. We will configure the python script `__init__.py` before deploying it as an Azure function.
-<img src="https://user-images.githubusercontent.com/53897474/167694888-00a97e1a-ea5c-4a34-94fa-fc7e15f1be79.png" width="200" height="200">
+The python script is now ready to be configured to suit our purpose. We will configure the python script `__init__.py` before deploying it as an Azure function.
+<img src="https://user-images.githubusercontent.com/53897474/167694888-00a97e1a-ea5c-4a34-94fa-fc7e15f1be79.png" width="900">
 
-1. Add the modules `sentinelsat` and `datetime`, which we need for the API. At the top of `__init__.py`, add the following code:
+1. Add the module `sentinelsat`, which is the module that connects to the Copernicus Open Data Hub. At the top of `__init__.py`, add the following code:
    ```
    from sentinelsat import SentinelAPI
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167697641-0f2b8a66-db47-4281-924e-9de574348d05.png" width="200" height="200">
+   <img src="https://user-images.githubusercontent.com/53897474/167697641-0f2b8a66-db47-4281-924e-9de574348d05.png" width="900">
 
-2. Add the `sentinelsat` and `pandas` module into the `requirements.txt` file so that the environment will download these modules when running the function:
+2. Add the required modules into the `requirements.txt` file so that the environment will download these modules when running the function. We need the `pandas` module in order to sort through the results from querying the map list later on. In the `requirements.txt` file, add the following statement:
    ```
    sentinelsat
    pandas
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167697804-e74271ce-6401-4c4d-8a7c-b199e7f5ffd5.png" width="200" height="200">
+   <img src="https://user-images.githubusercontent.com/53897474/167697804-e74271ce-6401-4c4d-8a7c-b199e7f5ffd5.png" width="900">
 
-3. We can now begin to change the script to suit our objectives. We will be counting on the When using the Copernicus API, we need to provide our login credentials. Under the `if name:` statement, add the following statement to provide your login details:
+3. Connect to Copernicus Open Access Hub with your login credentials using the API. Add the following statement and replace `username123` and `password123` with your own details:
    ```
    # login to Copernicus
    api = SentinelAPI('username123', 'password123', 'https://apihub.copernicus.eu/apihub')
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167698858-81462527-3464-4388-a30f-ae4d827f3f68.png" width="200" height="200">
+   <img src="https://user-images.githubusercontent.com/53897474/167698858-81462527-3464-4388-a30f-ae4d827f3f68.png" width="900">
 
 4. Add the following statement:
    ```
@@ -76,7 +76,7 @@ The project is now ready for configuration. We will configure the python script 
    products = api.query(footprint="intersects({})".format(latlong),
                        date=('NOW-5DAYS', 'NOW'))
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167702879-639c75ea-0963-4c89-99bc-88ebef5138fd.png" width="200" height="200">
+   <img src="https://user-images.githubusercontent.com/53897474/167702879-639c75ea-0963-4c89-99bc-88ebef5138fd.png" width="900">
 
 5. Add the following statement:
    ```
@@ -90,7 +90,7 @@ The project is now ready for configuration. We will configure the python script 
    top_one = sort.head(1)
    map_id = top_one.index.values
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167703074-3e854acd-1f3d-48c7-9786-b9257fcdb519.png" width="200" height="200">
+   <img src="https://user-images.githubusercontent.com/53897474/167703074-3e854acd-1f3d-48c7-9786-b9257fcdb519.png" width="900">
 
 6. Add the following statement:
    ```
@@ -104,33 +104,34 @@ The project is now ready for configuration. We will configure the python script 
    ingestion_date = map_metadata['Ingestion Date']
    quicklook_url = map_metadata['quicklook_url']
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167703560-33013e31-0eff-4420-b432-51c5417bdc4a.png" width="200" height="200">
+   <img src="https://user-images.githubusercontent.com/53897474/167703560-33013e31-0eff-4420-b432-51c5417bdc4a.png" width="900">
 
    
 7. Add the following statement:
    ```
    return func.HttpResponse(f'{{"map_id":"{map_id}","title":"{title}","size":"{size}","date":"{date}","url":"{url}","creation_date":"{creation_date}","ingestion_date":"{ingestion_date}","quicklook_url":"{quicklook_url}"}}')
    ```
-   <img src="https://user-images.githubusercontent.com/53897474/167703761-011c82fb-7f1e-4713-b1da-8eafcb08b714.png" width="200" height="200">
+   <img src="https://user-images.githubusercontent.com/53897474/167703761-011c82fb-7f1e-4713-b1da-8eafcb08b714.png" width="900">
 
 8. Press F5 to run and start debugging. If all goes well, it should look like the following image:
-   <img src="https://user-images.githubusercontent.com/53897474/167704312-9bb36e73-3a73-4bd9-bf72-ac8a87a79589.png" width="200" height="200">
+   <img src="https://user-images.githubusercontent.com/53897474/167704312-9bb36e73-3a73-4bd9-bf72-ac8a87a79589.png" width="900">  
    I sometimes run into the problem of VSC being unable to load the correct Python version (3.9.12) despite setting version already. I simply press F5 to run and start debugging a couple more times until it works again. 
    
-9. Now that the function is running locally, go back to the Azure extension, and run the CopernicusFunction HTTP web hook. 
-<img src="https://user-images.githubusercontent.com/53897474/167705136-2dc7cf2d-4b07-4362-93aa-b607a4b27c2a.png" width="200" height="200">
+9. Now that the function is running locally, go back to the Azure extension, and run the CopernicusFunction HTTP trigger. 
+   <img src="https://user-images.githubusercontent.com/53897474/167705136-2dc7cf2d-4b07-4362-93aa-b607a4b27c2a.png" width="900">
 
 10. Replace **Azure** with the test coordinates **73.000, -123.000** and press Enter to see if the function works. 
-<img src="https://user-images.githubusercontent.com/53897474/167705247-10b13bdb-ae9c-420b-9496-9a6a5e8b0d28.png" width="200" height="200">
+   <img src="https://user-images.githubusercontent.com/53897474/167705247-10b13bdb-ae9c-420b-9496-9a6a5e8b0d28.png" width="900">
 
 11. The function queries Copernicus successfully. Click the **Deploy to Function App** button to deploy it to Azure as a Function App. You can create a new Function App in Azure, or overwrite an existing one.
-<img src="https://user-images.githubusercontent.com/53897474/167706032-1e3c572a-b7e4-476b-af3b-ce5c64e2aa0e.png" width="200" height="200">
+   <img src="https://user-images.githubusercontent.com/53897474/167706032-1e3c572a-b7e4-476b-af3b-ce5c64e2aa0e.png" width="900">
 
-12. Done! You have successfully created an Azure Function App from a python script! 
+12. Done! You have successfully created an Azure Function App from a python script!
 
 
    
 # Create a Logic App
+Now we will create a logic app 
 1. In the Azure portal, select **Create a resource**. 
 2. Type **Logic app** in the search box and select it from the drop-down list. 
 3. On the Logic app overview page, select **Create**
@@ -182,12 +183,11 @@ The project is now ready for configuration. We will configure the python script 
   
 
 ## Done
-Your board is now sending sensor data to Azure IoT Hub on a regular basis. In this tutorial, you have completed the following:
-* Created an Azure IoT Hub
-* Registered your IoT device on the Azure IoT Hub
-* Compiled the Azure IoT MBed client and loaded it onto your IoT device
-* Successfully sent data from your IoT device to Azure IoT Hub
-* Monitored the contents of the incoming JSON payloads with the Azure CLI tool 
+You are now using an Azure Logic App to process data payloads and receive recent satellite imagery of the area. In this tutorial, you have completed the following:
+* asd
+* asd
+* asd
+* asd
 
 ## Next steps
 If you are interested in displaying the IoT data in a Power BI dashboard, continue on to **[Part 3](https://github.com/briantan050/Telus-IoT-Starter-Kit-Walkthrough-Part-3/)**.
