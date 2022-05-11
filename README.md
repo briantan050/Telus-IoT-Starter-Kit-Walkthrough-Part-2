@@ -152,9 +152,11 @@ Now we will create a logic app.
 Now we will configure the Logic App to receive the message payload from your Azure IoT Hub. 
 1. Open the Logic App.
 2. Scroll down and select **When a HTTP request is received**.
-<img src="https://user-images.githubusercontent.com/53897474/167739956-fe95c36a-e7b6-47bb-9674-1bb1669787d4.png" width="600">  
+<img src="https://user-images.githubusercontent.com/53897474/167739956-fe95c36a-e7b6-47bb-9674-1bb1669787d4.png" width="600"> 
+
 3. On the top toolbar, select **Code view**.
-<img src="https://user-images.githubusercontent.com/53897474/167740066-5624ed96-5c25-4138-ba30-df846f138b7e.png" width="600">  
+<img src="https://user-images.githubusercontent.com/53897474/167740066-5624ed96-5c25-4138-ba30-df846f138b7e.png" width="600">
+
 4. Replace the existing code with the code from **logic_app.txt**. 
 5. At the top toolbar, select **Save**.
 6. At the top toolbar, select **Designer** to open the design view.
@@ -163,7 +165,7 @@ Now we will configure the Logic App to receive the message payload from your Azu
 <img src="https://user-images.githubusercontent.com/53897474/167047536-f6fed635-8d10-4ec4-ae65-896e5c93d189.png" width="600">
 9. Navigate back to your Azure Portal home screen.
 
-### Create a subscription event
+# Create a subscription event
 1. In the Azure portal, open your IoT Hub.
 2. On the left toolbar, select **Events**.
 3. At the top toolbar, select **Event Subscription**.
@@ -176,14 +178,9 @@ Now we will configure the Logic App to receive the message payload from your Azu
 * **Endpoint**: Paste the **HTTP POST URL** that you copied earlier, and select **Confirm Selection**. 
 * Select **Create**.
 * Navigate back to your Azure Portal home screen. 
-  
-  
-  
-  
-  
-  
-  
-  
+
+# 
+
 
 ## Done
 You are now using an Azure Logic App to process data payloads and receive recent satellite imagery of the area. In this tutorial, you have completed the following:
