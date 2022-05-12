@@ -31,19 +31,20 @@ The list of steps is as follows:
 We will start by creating an Azure Function app to query Copernicus Open Access Hub. Microsoft Azure allows us to create Azure Functions deployed from a Python script as long as we use the specific Visual Studio Code extensions. 
 
 1. Open Visual Studio Code (VSC)
-2. If you have trouble opening VSC, you can also right click on a basic text file and open with VSC.
+2. Somewhere along the line, need to sign in. Ctrl + Shift + P, Azure sign in
+3. If you have trouble opening VSC, you can also right click on a basic text file and open with VSC.
    <img src="https://user-images.githubusercontent.com/53897474/167527349-f34fb553-9255-4fee-9555-ca0b61181d73.png" width="400">
-3. Choose the Azure icon in the Activity bar, then in the Azure: Functions area, select the Create new project... icon.
+4. Choose the Azure icon in the Activity bar, then in the Azure: Functions area, select the Create new project... icon.
    <img src="https://user-images.githubusercontent.com/53897474/167529854-452b2a1f-84e8-4ba8-8435-76e99f2729f3.png" width="400">
-4. Choose a folder location for your project workspace and choose Select. It is recommended that you create a new folder or choose an empty folder as the project workspace.
-5.  Provide the following information at the prompts:
+5. Choose a folder location for your project workspace and choose Select. It is recommended that you create a new folder or choose an empty folder as the project workspace.
+6.  Provide the following information at the prompts:
    *  Select a language for your function project: Choose **Python**.
    *  Select a Python alias to create a virtual environment: Choose the location of your Python interpreter.
    *  Select a template for your project's first function: Choose **HTTP trigger**.
    *  Provide a function name: Type **CopernicusFunction**.
    *  Authorization level: Choose **Anonymous**, which enables anyone to call your function endpoint.
    *  Select how you would like to open your project: Choose **Add to workspace**.
-6. Using this information, Visual Studio Code generates an Azure Functions project with an HTTP trigger. You can view the local project files in the Explorer.
+7. Using this information, Visual Studio Code generates an Azure Functions project with an HTTP trigger. You can view the local project files in the Explorer.
 
 # Configure the python function
 The python script is now ready to be configured to suit our purpose. The following instructions outline how to the python script `__init__.py` before deploying it as an Azure function, however, I have added my copy for your convenience, but you will still need to change the **username123** and **password123** fields, as well as the `requirements.txt` file. 
@@ -107,7 +108,6 @@ This is what it looks like to start:
    quicklook_url = map_metadata['quicklook_url']
    ```
 <img src="https://user-images.githubusercontent.com/53897474/167703560-33013e31-0eff-4420-b432-51c5417bdc4a.png" width="900">
-
    
 7. Add the following statement:
    ```
@@ -129,7 +129,6 @@ This is what it looks like to start:
 <img src="https://user-images.githubusercontent.com/53897474/167706032-1e3c572a-b7e4-476b-af3b-ce5c64e2aa0e.png" width="900">
 
 12. Done! You have successfully created an Azure Function App from a python script!
-
 
 # Create a Logic App
 Now we will create a logic app. 
@@ -179,7 +178,35 @@ Now we will configure the Logic App to receive the message payload from your Azu
 * Select **Create**.
 * Navigate back to your Azure Portal home screen. 
 
-# 
+# Verify that the Logic App runs successfully
+1. Open the Logic App.
+2. Turn on the Microcontroller and start receiving the data payloads. They should start to appear in the Logic App Overview. Click on a successful run to open up the Run History. 
+<img src="https://user-images.githubusercontent.com/53897474/168176976-ba205a44-ac71-410e-986f-b60d40b4ac6f.png" width="600">
+
+3. In the run history, you can inspect the details of the successful run. Scrolling down to **Parse JSON telemetry string** would show the received data payload from the sensor.
+<img src="https://user-images.githubusercontent.com/53897474/168177160-59bd1641-048d-48c1-b58c-a867749a9056.png" width="600">
+
+4. Navigate back to the Logic App Designer.
+
+# Configure the Logic App
+We will now configure the Logic App to execute your created Azure Function when a condition is met. For this tutorial, the condition is already set to **ButtonPress > 0**, signifying that the button has been pressed. 
+1. In the Logic App Designer, scroll down to **Condition** and click to open.
+2. On the **True** block, click **Add Action**. 
+3. Search for **Azure Function** and add it to the workflow. Your created Azure Function should appear. 
+<img src="https://user-images.githubusercontent.com/53897474/168180743-06eebbf4-edc6-483a-8d4b-2d61b69d8062.png" width="600">
+
+4. Set the **Request Body** to **latlong**
+<img src="https://user-images.githubusercontent.com/53897474/168183754-d945c083-3d60-4b7d-a9ee-56ae43b82086.png" width="600">
+
+5. Create a new action by selecting **Add an action**. 
+6. Search for the **Parse JSON** built-in operation and select it. 
+<img src="https://user-images.githubusercontent.com/53897474/168183997-2822e4a9-2b7d-41b2-a853-30b33ffdb6dd.png" width="600">
+
+7. For **Content**, choose **Body** from your your created Azure Function. 
+8. For **Schema**, copy and paste the code from `parse_JSON_schema.txt`:
+
+
+
 
 
 ## Done
