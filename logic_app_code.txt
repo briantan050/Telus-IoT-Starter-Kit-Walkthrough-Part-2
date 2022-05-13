@@ -146,7 +146,7 @@
             "6._Set_decoded_telemetry_value": {
                 "inputs": {
                     "name": "Telemetry_Param",
-                    "value": "@variables('Param_Data_Encoded')"
+                    "value": "@{decodeBase64(variables('Param_Data_Encoded'))}"
                 },
                 "runAfter": {
                     "5._Initialize_telemetry_variable": [
