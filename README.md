@@ -31,18 +31,23 @@ The list of steps is as follows:
 We will start by creating an Azure Function app to query Copernicus Open Access Hub. Microsoft Azure allows us to create Azure Functions deployed from a Python script as long as we use the specific Visual Studio Code extensions. 
 
 1. Open Visual Studio Code (VSC)
-2. Choose the Azure icon in the Activity bar, Sign into Azure.
-4. Choose the Azure icon in the Activity bar, then in the Azure: Functions area, select the Create new project... icon.
-   <img src="https://user-images.githubusercontent.com/53897474/167529854-452b2a1f-84e8-4ba8-8435-76e99f2729f3.png" width="400">
-5. Choose a folder location for your project workspace and choose Select. It is recommended that you create a new folder or choose an empty folder as the project workspace.
-6.  Provide the following information at the prompts:
+2. Choose the Azure icon in the Activity bar, Sign into Azure. This will open a browser window for you to sign into Azure.  
+   <img src="https://user-images.githubusercontent.com/53897474/168380923-f1f7b937-c37b-4952-8290-eabad28e2643.png" width="400">
+
+3. Once signed in, back in VSCode select the **Create new project...** icon.  
+   <img src="https://user-images.githubusercontent.com/53897474/168380923-f1f7b937-c37b-4952-8290-eabad28e2643.png" width="400">
+   
+4. Choose a folder location for your project workspace and choose Select. It is recommended that you create a new folder or choose an empty folder as the project workspace.
+5.  Provide the following information at the prompts:
    *  Select a language for your function project: Choose **Python**.
-   *  Select a Python alias to create a virtual environment: Choose the location of your Python interpreter.
+   *  Select a Python alias to create a virtual environment: Choose py -3.9 or the folder location of your python 3.9.12.  
+      <img src="https://user-images.githubusercontent.com/53897474/168383264-b0f3c9b2-fae1-4379-886c-dece7a185e76.png" width="400">
+
    *  Select a template for your project's first function: Choose **HTTP trigger**.
    *  Provide a function name: Type **CopernicusFunction**.
    *  Authorization level: Choose **Anonymous**, which enables anyone to call your function endpoint.
    *  Select how you would like to open your project: Choose **Add to workspace**.
-7. Using this information, Visual Studio Code generates an Azure Functions project with an HTTP trigger. You can view the local project files in the Explorer.
+6. Using this information, Visual Studio Code generates an Azure Functions project with an HTTP trigger. You can view the local project files in the Explorer.
 
 # Configure the python function
 The python script is now ready to be configured to suit our purpose. The following instructions outline how to the python script `__init__.py` before deploying it as an Azure function, however, I have added my copy for your convenience, but you will still need to change the **username123** and **password123** fields, as well as the `requirements.txt` file. 
