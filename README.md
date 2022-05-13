@@ -182,14 +182,13 @@ Now we will configure the Logic App to receive the message payload from your Azu
 1. Open the Logic App.
 2. Turn on the Microcontroller and start receiving the data payloads. They should start to appear in the Logic App Overview. Click on a successful run to open up the Run History. 
 <img src="https://user-images.githubusercontent.com/53897474/168176976-ba205a44-ac71-410e-986f-b60d40b4ac6f.png" width="600">
-
 3. In the run history, you can inspect the details of the successful run. Scrolling down to **Parse JSON telemetry string** would show the received data payload from the sensor.
 <img src="https://user-images.githubusercontent.com/53897474/168177160-59bd1641-048d-48c1-b58c-a867749a9056.png" width="600">
 
 4. Navigate back to the Logic App Designer.
 
 # Configure the Logic App
-We will now configure the Logic App to execute your created Azure Function when a condition is met. For this tutorial, the condition is already set to **ButtonPress > 0**, signifying that the button has been pressed. 
+We will now configure the Logic App to execute your created Azure Function when a condition is met. For this tutorial, the condition is already set to **ButtonPress = 0**, signifying that the button has not been pressed. 
 1. In the Logic App Designer, scroll down to **Condition** and click to open.
 2. On the **True** block, click **Add Action**. 
 3. Search for **Azure Function** and add it to the workflow. Your created Azure Function should appear. 
@@ -204,18 +203,34 @@ We will now configure the Logic App to execute your created Azure Function when 
 
 7. For **Content**, choose **Body** from your your created Azure Function. 
 8. For **Schema**, copy and paste the code from `parse_JSON_schema.txt`.
-9. 
+<img src="https://user-images.githubusercontent.com/53897474/168335305-f90e1e9c-2f14-4b1a-8661-fd7cb0c558ad.png" width="600">
 
+9. Add another action by selecting **Add an action**.
+10. Search for **Outlook**, and choose **Send an email (V2)**
+<img src="https://user-images.githubusercontent.com/53897474/168336330-10bf17d9-2deb-42df-bc92-9760b0b14ae7.png" width="600">
 
+11. It will prompt you to sign in to create a connection to Outlook.com. Sign in and accept the permissions. You could also make a new Outlook email account specifically for this purpose just to test it out.
+12. Configure the **Send an email** function as follows:
+* **Body**: copy and paste the code from `email_body.txt`. 
+* **Subject**: Give it a subject, this could be anything.
+* **To**: Type out the email you want to send the alert to. 
 
+13. At the top left, click **Save**.
 
+# Verify that the Logic App works correctly
+1. Navigate to the Logic App Overview
+2. Click on a succeeded run
+3. Click **Resubmit** to run the payload again with the new changes to the logic app.
+<img src="https://user-images.githubusercontent.com/53897474/168349096-b0270a96-fdcf-4e29-b842-cc7f1bd6fc37.png" width="600">
+
+4. Click **Refresh** to see the new run appear. Click it and scroll down to follow its progress in real time. 
+5. The Logic App should run, detect that the button was not pressed (ButtonPress = 0), and send the email to your inbox.
 
 ## Done
-You are now using an Azure Logic App to process data payloads and receive recent satellite imagery of the area. In this tutorial, you have completed the following:
-* asd
-* asd
-* asd
-* asd
+You are now using an Azure Logic App to process data payloads and receive metadata of recent satellite imagery of the area. In this tutorial, you have completed the following:
+* Create and configure an Azure Function using Python
+* Create an Azure Logic App
+* Configure the Logic App to run the Azure Function and send an email when a specific criteria is met
 
 ## Next steps
 If you are interested in displaying the IoT data in a Power BI dashboard, continue on to **[Part 3](https://github.com/briantan050/Telus-IoT-Starter-Kit-Walkthrough-Part-3/)**.
