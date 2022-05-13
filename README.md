@@ -31,9 +31,7 @@ The list of steps is as follows:
 We will start by creating an Azure Function app to query Copernicus Open Access Hub. Microsoft Azure allows us to create Azure Functions deployed from a Python script as long as we use the specific Visual Studio Code extensions. 
 
 1. Open Visual Studio Code (VSC)
-2. Somewhere along the line, need to sign in. Ctrl + Shift + P, Azure sign in
-3. If you have trouble opening VSC, you can also right click on a basic text file and open with VSC.
-   <img src="https://user-images.githubusercontent.com/53897474/167527349-f34fb553-9255-4fee-9555-ca0b61181d73.png" width="400">
+2. Choose the Azure icon in the Activity bar, Sign into Azure.
 4. Choose the Azure icon in the Activity bar, then in the Azure: Functions area, select the Create new project... icon.
    <img src="https://user-images.githubusercontent.com/53897474/167529854-452b2a1f-84e8-4ba8-8435-76e99f2729f3.png" width="400">
 5. Choose a folder location for your project workspace and choose Select. It is recommended that you create a new folder or choose an empty folder as the project workspace.
