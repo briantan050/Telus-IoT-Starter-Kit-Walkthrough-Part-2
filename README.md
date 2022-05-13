@@ -203,7 +203,8 @@ We will now configure the Logic App to execute your created Azure Function when 
 <img src="https://user-images.githubusercontent.com/53897474/168183997-2822e4a9-2b7d-41b2-a853-30b33ffdb6dd.png" width="600">
 
 7. For **Content**, choose **Body** from your your created Azure Function. 
-8. For **Schema**, copy and paste the code from `parse_JSON_schema.txt`:
+8. For **Schema**, copy and paste the code from `parse_JSON_schema.txt`.
+9. 
 
 
 
