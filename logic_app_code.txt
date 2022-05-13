@@ -2,54 +2,7 @@
     "definition": {
         "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
         "actions": {
-            "Condition": {
-                "actions": {
-                    "HttpTrigger": {
-                        "inputs": {
-                            "body": "@variables('latlong')",
-                            "function": {
-                                "id": "/subscriptions/089d0141-a67b-4e9c-b51e-33aa59eefb4f/resourceGroups/btfunctionapp/providers/Microsoft.Web/sites/BTFunctionApp/functions/HttpTrigger"
-                            }
-                        },
-                        "runAfter": {},
-                        "type": "Function"
-                    }
-                },
-                "expression": {
-                    "and": [
-                        {
-                            "equals": [
-                                "@int(body('Parse_JSON_telemetry_string')?['ButtonPress'])",
-                                0
-                            ]
-                        }
-                    ]
-                },
-                "runAfter": {
-                    "Initialize_variable": [
-                        "Succeeded"
-                    ]
-                },
-                "type": "If"
-            },
-            "First_item_from_array_to_object": {
-                "inputs": {
-                    "variables": [
-                        {
-                            "name": "Body_Param",
-                            "type": "object",
-                            "value": "@variables('Body_Param_Arr')[0]"
-                        }
-                    ]
-                },
-                "runAfter": {
-                    "Initialize_HTTP_result_into_array": [
-                        "Succeeded"
-                    ]
-                },
-                "type": "InitializeVariable"
-            },
-            "Initialize_HTTP_result_into_array": {
+            "1._Initialize_HTTP_result_into_array": {
                 "inputs": {
                     "variables": [
                         {
@@ -62,57 +15,24 @@
                 "runAfter": {},
                 "type": "InitializeVariable"
             },
-            "Initialize_base64_encoded_value_of_telemetry": {
+            "2._Initialize_first_item_from_array_to_object": {
                 "inputs": {
                     "variables": [
                         {
-                            "name": "Param_Data_Encoded",
-                            "type": "string",
-                            "value": "@body('Parse_JSON')?['data']?['body']"
+                            "name": "Body_Param",
+                            "type": "object",
+                            "value": "@variables('Body_Param_Arr')[0]"
                         }
                     ]
                 },
                 "runAfter": {
-                    "Parse_JSON": [
+                    "1._Initialize_HTTP_result_into_array": [
                         "Succeeded"
                     ]
                 },
                 "type": "InitializeVariable"
             },
-            "Initialize_telemetry_variable": {
-                "inputs": {
-                    "variables": [
-                        {
-                            "name": "Telemetry_Param",
-                            "type": "string"
-                        }
-                    ]
-                },
-                "runAfter": {
-                    "Initialize_base64_encoded_value_of_telemetry": [
-                        "Succeeded"
-                    ]
-                },
-                "type": "InitializeVariable"
-            },
-            "Initialize_variable": {
-                "inputs": {
-                    "variables": [
-                        {
-                            "name": "latlong",
-                            "type": "string",
-                            "value": "{\n    \"name\": \"@{body('Parse_JSON_telemetry_string')?['Latitude']}, @{body('Parse_JSON_telemetry_string')?['Longitude']}\"\n}"
-                        }
-                    ]
-                },
-                "runAfter": {
-                    "Parse_JSON_telemetry_string": [
-                        "Succeeded"
-                    ]
-                },
-                "type": "InitializeVariable"
-            },
-            "Parse_JSON": {
+            "3._Parse_JSON": {
                 "inputs": {
                     "content": "@variables('Body_Param')",
                     "schema": {
@@ -184,13 +104,58 @@
                     }
                 },
                 "runAfter": {
-                    "First_item_from_array_to_object": [
+                    "2._Initialize_first_item_from_array_to_object": [
                         "Succeeded"
                     ]
                 },
                 "type": "ParseJson"
             },
-            "Parse_JSON_telemetry_string": {
+            "4._Initialize_base64_encoded_value_of_telemetry": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "Param_Data_Encoded",
+                            "type": "string",
+                            "value": "@body('3._Parse_JSON')?['data']?['body']"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "3._Parse_JSON": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "5._Initialize_telemetry_variable": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "Telemetry_Param",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "4._Initialize_base64_encoded_value_of_telemetry": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "6._Set_decoded_telemetry_value": {
+                "inputs": {
+                    "name": "Telemetry_Param",
+                    "value": "@variables('Param_Data_Encoded')"
+                },
+                "runAfter": {
+                    "5._Initialize_telemetry_variable": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "SetVariable"
+            },
+            "7._Parse_JSON_telemetry_string": {
                 "inputs": {
                     "content": "@variables('Telemetry_Param')",
                     "schema": {
@@ -242,11 +207,47 @@
                     }
                 },
                 "runAfter": {
-                    "Set_decoded_telemetry_value": [
+                    "6._Set_decoded_telemetry_value": [
                         "Succeeded"
                     ]
                 },
                 "type": "ParseJson"
+            },
+            "8._Initialize_latlong_variable": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "latlong",
+                            "type": "string",
+                            "value": "{\n    \"name\": \"@{body('7._Parse_JSON_telemetry_string')?['Latitude']}, @{body('7._Parse_JSON_telemetry_string')?['Longitude']}\"\n}"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "7._Parse_JSON_telemetry_string": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "Condition": {
+                "actions": {},
+                "expression": {
+                    "and": [
+                        {
+                            "equals": [
+                                "@int(body('7._Parse_JSON_telemetry_string')?['ButtonPress'])",
+                                0
+                            ]
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "8._Initialize_latlong_variable": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "If"
             },
             "Response": {
                 "inputs": {
@@ -258,18 +259,6 @@
                     ]
                 },
                 "type": "Response"
-            },
-            "Set_decoded_telemetry_value": {
-                "inputs": {
-                    "name": "Telemetry_Param",
-                    "value": "@{decodeBase64(variables('Param_Data_Encoded'))}"
-                },
-                "runAfter": {
-                    "Initialize_telemetry_variable": [
-                        "Succeeded"
-                    ]
-                },
-                "type": "SetVariable"
             }
         },
         "contentVersion": "1.0.0.0",
