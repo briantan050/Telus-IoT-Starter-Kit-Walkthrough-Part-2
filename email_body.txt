@@ -3,25 +3,25 @@ Good day!
 The IoT sensor has detected something.
 
 The following is data from the sensor at the time of the alert:
-Device name: @{body('Parse_JSON')?['data']?['systemProperties']?['iothub-connection-device-id']}
-Device model: @{body('Parse_JSON_telemetry_string')?['ReportingDevice']}
-Version: @{body('Parse_JSON_telemetry_string')?['Version']}
-Time of day: @{body('Parse_JSON_telemetry_string')?['TOD']}
-Button press: @{body('Parse_JSON_telemetry_string')?['ButtonPress']}
-Temperature: @{body('Parse_JSON_telemetry_string')?['Temperature']}
-Humidity: @{body('Parse_JSON_telemetry_string')?['Humidity']}
-Latitude: @{body('Parse_JSON_telemetry_string')?['Latitude']}
-Longitude: @{body('Parse_JSON_telemetry_string')?['Longitude']}
-Pressure: @{body('Parse_JSON_telemetry_string')?['Pressure']}
-Tilt: @{body('Parse_JSON_telemetry_string')?['Tilt']}
+Device name: @{body('3._Parse_JSON')?['data']?['systemProperties']?['iothub-connection-device-id']}
+Device model: @{body('7._Parse_JSON_telemetry_string')?['ReportingDevice']}
+Version: @{body('7._Parse_JSON_telemetry_string')?['Version']}
+Time of day: @{body('7._Parse_JSON_telemetry_string')?['TOD']}
+Button press: @{body('7._Parse_JSON_telemetry_string')?['ButtonPress']}
+Temperature: @{body('7._Parse_JSON_telemetry_string')?['Temperature']}
+Humidity: @{body('7._Parse_JSON_telemetry_string')?['Humidity']}
+Latitude: @{body('7._Parse_JSON_telemetry_string')?['Latitude']}
+Longitude: @{body('7._Parse_JSON_telemetry_string')?['Longitude']}
+Pressure: @{body('7._Parse_JSON_telemetry_string')?['Pressure']}
+Tilt: @{body('7._Parse_JSON_telemetry_string')?['Tilt']}
 
 
 The following is the mapsheet of the chosen location, grabbed from Copernicus open access hub:
-Map ID: @{body('Parse_function_JSON')?['map_id']}
-Map title: @{body('Parse_function_JSON')?['title']}
-Size: @{body('Parse_function_JSON')?['size']}
-Date: @{body('Parse_function_JSON')?['date']}
-Creation Date: @{body('Parse_function_JSON')?['creation_date']}
-Ingestion Date: @{body('Parse_function_JSON')?['ingestion_date']}
-URL: @{body('Parse_function_JSON')?['url']}
-Quicklook URL: @{body('Parse_function_JSON')?['quicklook_url']}
+Map ID: @{body('Parse_JSON')?['map_id']}
+Map title: @{body('Parse_JSON')?['title']}
+Size: @{body('Parse_JSON')?['size']}
+Date: @{body('Parse_JSON')?['date']}
+Creation Date: @{body('Parse_JSON')?['creation_date']}
+Ingestion Date: @{body('Parse_JSON')?['ingestion_date']}
+URL: @{body('Parse_JSON')?['url']}
+Quicklook URL: @{body('Parse_JSON')?['quicklook_url']}
