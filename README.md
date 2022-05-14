@@ -200,8 +200,12 @@ Now we will configure the Logic App to receive the message payload from your Azu
 2. Scroll down and select **When a HTTP request is received**.
 <img src="https://user-images.githubusercontent.com/53897474/167739956-fe95c36a-e7b6-47bb-9674-1bb1669787d4.png" width="600"> 
 
+___
+
 3. On the top toolbar, select **Code view**.
 <img src="https://user-images.githubusercontent.com/53897474/167740066-5624ed96-5c25-4138-ba30-df846f138b7e.png" width="600">
+
+___
 
 4. Replace the existing code with the code from **logic_app_code.txt**. 
 5. At the top toolbar, select **Save**.
@@ -268,25 +272,33 @@ We will now configure the Logic App to execute your Azure Function when a condit
 3. Search for **Azure Function** and add it to the workflow. Your created Azure Function should appear. 
 <img src="https://user-images.githubusercontent.com/53897474/168180743-06eebbf4-edc6-483a-8d4b-2d61b69d8062.png" width="600">
 
+___
+
 4. Set the **Request Body** to **latlong**
 <img src="https://user-images.githubusercontent.com/53897474/168183754-d945c083-3d60-4b7d-a9ee-56ae43b82086.png" width="600">
 
 The Logic App will now execute the Azure Function when it receives a telemetry message from IoT Hub where "ButtonPress = 0". All incoming messages should therefore trigger the function so long as the Microcontroller's blue user button is not pressed.
 
 # Parse the metadata and send an email
-At this stage in the Logic App, the Azure Function has executed and sent back the metadata of a mapsheet in JSON format. We must parse this JSON format before being able to send it in an email.  
+At this stage in the Logic App, the Azure Function has been executed and sent back the metadata of a mapsheet in JSON format. We must parse this JSON format before being able to send the metadata in an email.  
 1. Create a new action below by selecting **Add an action**. 
 2. Search for the **Parse JSON** built-in operation and select it. 
 <img src="https://user-images.githubusercontent.com/53897474/168183997-2822e4a9-2b7d-41b2-a853-30b33ffdb6dd.png" width="600">
+
+___
 
 3. For **Content**, choose **Body** from your your created Azure Function. 
 4. For **Schema**, copy and paste the code from `parse_JSON_schema.txt`.
 <img src="https://user-images.githubusercontent.com/53897474/168404633-ca2caa25-7c1b-407b-bb8b-21dec520d831.png" width="600">
 
+___
+
 We will now use the parsed metadata to construct an email. 
 1. Add another action by selecting **Add an action**.
 2. Search for **Outlook**, and choose **Send an email (V2)**
-<img src="https://user-images.githubusercontent.com/53897474/168336330-10bf17d9-2deb-42df-bc92-9760b0b14ae7.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168404981-ed629e74-062a-4152-b6b6-ce0bb1b33e51.png" width="600">
+
+___
 
 3. It will prompt you to sign in to create a connection to Outlook.com. Sign in and accept the permissions. You could also make a new Outlook email account specifically for this purpose just to test it out.
 4. Configure the **Send an email** function as follows:
@@ -301,6 +313,8 @@ We will now use the parsed metadata to construct an email.
 2. Click on a succeeded run
 3. Click **Resubmit** to run the payload again with the new changes to the logic app.
 <img src="https://user-images.githubusercontent.com/53897474/168349096-b0270a96-fdcf-4e29-b842-cc7f1bd6fc37.png" width="600">
+
+___
 
 4. Click **Refresh** to see the new run appear. Click it and scroll down to follow its progress in real time. 
 5. The Logic App should run, detect that the button was not pressed (ButtonPress = 0), and send the email to your inbox.
