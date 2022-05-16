@@ -32,12 +32,12 @@ We will start by creating an Azure Function app to query Copernicus Open Access 
 
 1. Open Visual Studio Code (VSC)
 2. Choose the Azure icon in the Activity bar, Sign into Azure. This will open a browser window for you to sign into Azure.  
-   <img src="https://user-images.githubusercontent.com/53897474/168380923-f1f7b937-c37b-4952-8290-eabad28e2643.png" width="400">
+   <img src="https://user-images.githubusercontent.com/53897474/168636078-ec75afe2-a90c-4203-aadb-6d99990b6ac4.png" width="400">
 
 ___
 
 3. Once signed in, back in VSCode select the **Create new project...** icon.  
-   <img src="https://user-images.githubusercontent.com/53897474/168380923-f1f7b937-c37b-4952-8290-eabad28e2643.png" width="400">
+   <img src="https://user-images.githubusercontent.com/53897474/168636244-ca353ce6-66ea-492b-a42b-6eb24c972c6b.png" width="400">
 
 ___
 
@@ -45,7 +45,7 @@ ___
 5.  Provide the following information at the prompts:
    *  Select a language for your function project: Choose **Python**.
    *  Select a Python alias to create a virtual environment: Choose **py -3.9** or the folder location of your python 3.9.12.  
-      <img src="https://user-images.githubusercontent.com/53897474/168383264-b0f3c9b2-fae1-4379-886c-dece7a185e76.png" width="400">
+      <img src="https://user-images.githubusercontent.com/53897474/168636384-6d6270a1-2134-41f5-a517-4073482ecfc7.png" width="400">
 
    *  Select a template for your project's first function: Choose **HTTP trigger**.
    *  Provide a function name: Type **CopernicusFunction**.
@@ -57,7 +57,7 @@ ___
 The python script is now ready to be configured to suit our purpose. The following instructions outline how to the python script `__init__.py` before deploying it as an Azure function, however, I have added my copy for your convenience, but you will still need to change the **username123** and **password123** fields, as well as the `requirements.txt` file. 
 
 This is what it looks like to start:  
-<img src="https://user-images.githubusercontent.com/53897474/167694888-00a97e1a-ea5c-4a34-94fa-fc7e15f1be79.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/168637491-4ab0a4cb-9288-4569-a1b6-c1c037ac281a.png" width="900">
 
 ___
 
@@ -66,7 +66,7 @@ ___
    ```
    from sentinelsat import SentinelAPI
    ```
-<img src="https://user-images.githubusercontent.com/53897474/167697641-0f2b8a66-db47-4281-924e-9de574348d05.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/168636844-0b4f8126-a5af-46f2-b114-a417664f73cf.png" width="900">
 
 ___
 
@@ -76,17 +76,18 @@ ___
    sentinelsat
    pandas
    ```
-<img src="https://user-images.githubusercontent.com/53897474/167697804-e74271ce-6401-4c4d-8a7c-b199e7f5ffd5.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/168637254-00217cc8-3906-45c7-92c6-668adac256a7.png" width="900">
 
 ___
 
 3. Add your login credentials to login to Copernicus Open Access Hub with the API.  
-   At `line 20`, add the following code and replace **username123** and **password123** with your own details:
+   Back in the `__init__.py` file, at `line 20`, add the following code and replace **username123** and **password123** with your own details:
    ```
    # login to Copernicus
    api = SentinelAPI('username123', 'password123', 'https://apihub.copernicus.eu/apihub')
    ```
-<img src="https://user-images.githubusercontent.com/53897474/167698858-81462527-3464-4388-a30f-ae4d827f3f68.png" width="900">
+   * `line 10` checks for the object `name`, and if it has been set by the user, will execute the section under `line 19`.  
+<img src="https://user-images.githubusercontent.com/53897474/168637858-400677e7-4e49-40e6-b803-c9e50d758160.png" width="900">
 
 ___
 
@@ -103,7 +104,7 @@ ___
    * We use `footprint="intersects({})".format(latlong)` to filter for map products which intersect our given latlong coordinate.
    * We use `date=('NOW-5DAYS', 'NOW')` to filter for map products posted between 5 days ago to today.
    * To construct your own queries, more documentation on the syntax is available in [this link](https://scihub.copernicus.eu/userguide/FullTextSearch), although some trial and error is involved as it does not outline how to use the queries with python completely. 
-<img src="https://user-images.githubusercontent.com/53897474/167702879-639c75ea-0963-4c89-99bc-88ebef5138fd.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/168638069-aa902c47-f9fd-45e0-9f55-86cdcd3d98f6.png" width="900">
 
 ___
 
@@ -124,7 +125,7 @@ ___
    * We sort it by cloud cover percentage and date in ascending order.
    * We use `sort.head(1)` to choose the single top map product that appears at the top of the sorted dataframe. 
    * We use `index.values` to fetch the map ID of the map product.
-<img src="https://user-images.githubusercontent.com/53897474/167703074-3e854acd-1f3d-48c7-9786-b9257fcdb519.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/168639124-f649d363-315f-49c8-b024-b48d3abeba6d.png" width="900">
 
 ___
 
@@ -141,7 +142,7 @@ ___
    ingestion_date = map_metadata['Ingestion Date']
    quicklook_url = map_metadata['quicklook_url']
    ```
-<img src="https://user-images.githubusercontent.com/53897474/167703560-33013e31-0eff-4420-b432-51c5417bdc4a.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/168640109-72134607-27a9-410d-a3af-975c09213efd.png" width="900">
 
 ___
 
@@ -150,28 +151,28 @@ ___
    ```
    return func.HttpResponse(f'{{"map_id":"{map_id}","title":"{title}","size":"{size}","date":"{date}","url":"{url}","creation_date":"{creation_date}","ingestion_date":"{ingestion_date}","quicklook_url":"{quicklook_url}"}}')
    ```
-<img src="https://user-images.githubusercontent.com/53897474/167703761-011c82fb-7f1e-4713-b1da-8eafcb08b714.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/168640367-89ad3aba-a810-4c43-9059-859414049052.png" width="900">
 
 ___
 
-8. Press F5 to run and start debugging. I sometimes run into the problem of VSCode being unable to load the correct Python version (3.9.12) despite already setting the version. I simply press F5 to run and start debugging a few more times until it works again.  
+8. Press F5 to run and start debugging. I sometimes run into the problem of VSCode being unable to load the correct Python version **(3.9.12)** despite already setting the version. I simply press F5 to run and start debugging a few more times until it works again.  
    If all goes well, it should look like the following image:  
 <img src="https://user-images.githubusercontent.com/53897474/167704312-9bb36e73-3a73-4bd9-bf72-ac8a87a79589.png" width="900">  
 
 ___
 
 9. Now that the function is running locally, go back to the Azure extension, and run the **CopernicusFunction** HTTP trigger. 
-<img src="https://user-images.githubusercontent.com/53897474/167705136-2dc7cf2d-4b07-4362-93aa-b607a4b27c2a.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/168641049-34b8ab39-5124-41a6-b41f-c2a38a664916.png" width="900">
 
 ___
 
 10. Replace **"Azure"** with some test coordinates such as **"73.000, -123.000"** and press Enter to see if the function works. 
-<img src="https://user-images.githubusercontent.com/53897474/167705247-10b13bdb-ae9c-420b-9496-9a6a5e8b0d28.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/168641200-1757abd5-65e2-46ba-ac7d-29b37163e40c.png" width="900">
 
 ___
 
 11. The function queries Copernicus successfully. Click the **Deploy to Function App** button to deploy it to Azure as a Function App. You can create a new Function App in Azure, or overwrite an existing one.
-<img src="https://user-images.githubusercontent.com/53897474/167706032-1e3c572a-b7e4-476b-af3b-ce5c64e2aa0e.png" width="900">
+<img src="https://user-images.githubusercontent.com/53897474/168641383-4d05e4de-8819-4048-bd20-2049da90025b.png" width="900">
 
 ___
 
@@ -190,7 +191,7 @@ Now we will create a logic app to construct the automated workflow.
 * **Region**: Use the same location as your resource group.
 * **Enable log analytics**: Select **No**
 * **Plan type**: Select **Consumption**
-<img src="https://user-images.githubusercontent.com/53897474/167044055-bd428dd2-c926-423c-8878-46029cd6ddb3.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168641757-8ce53b9e-7d27-487f-82aa-aca1a7eb645c.png" width="600">
 
 5. Select **Review + Create**, and then **Create**.
 
@@ -198,12 +199,12 @@ Now we will create a logic app to construct the automated workflow.
 Now we will configure the Logic App to receive the message payload from your Azure IoT Hub. This is done by creating a **HTTP request** on the Logic App, which will receive the data payload from your Azure IoT Hub.  
 1. Open the Logic App.
 2. Scroll down and select **When a HTTP request is received**.
-<img src="https://user-images.githubusercontent.com/53897474/167739956-fe95c36a-e7b6-47bb-9674-1bb1669787d4.png" width="600"> 
+<img src="https://user-images.githubusercontent.com/53897474/168641928-62f1bdcd-6a0c-488a-a2dc-e3ec25741025.png" width="600"> 
 
 ___
 
 3. On the top toolbar, select **Code view**.
-<img src="https://user-images.githubusercontent.com/53897474/167740066-5624ed96-5c25-4138-ba30-df846f138b7e.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168642132-224cd238-f2b7-40ca-ab63-092a2a48efd2.png" width="600">
 
 ___
 
@@ -212,7 +213,7 @@ ___
 6. At the top toolbar, select **Designer** to open the design view.
 7. Select the first block, the Trigger, to open it.
 8. Copy the **HTTP POST URL**. We will need it for the next step.  
-<img src="https://user-images.githubusercontent.com/53897474/167047536-f6fed635-8d10-4ec4-ae65-896e5c93d189.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168642319-620a4689-3306-4e8a-b00e-4f9018cb948d.png" width="600">
 9. Navigate back to your Azure Portal home screen.
 
 # Create a subscription event
@@ -235,12 +236,12 @@ Your Azure IoT Hub and your Logic App should now be connected. Azure IoT Hub wil
 # Verify that the Logic App runs successfully
 1. Open the Logic App.
 2. Turn on the Microcontroller. Once the messages are being received into your IoT Hub, they should also start to appear in the Logic App Overview. Click on a successful run to open up the Run History. 
-<img src="https://user-images.githubusercontent.com/53897474/168176976-ba205a44-ac71-410e-986f-b60d40b4ac6f.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168642635-d0f6551d-3340-4986-82fa-f67799561c70.png" width="600">
 
 ___
 
 3. In the run history, you can inspect the details of the successful run. Scrolling down to **Parse JSON telemetry string** would show the received data payload from the sensor.
-<img src="https://user-images.githubusercontent.com/53897474/168177160-59bd1641-048d-48c1-b58c-a867749a9056.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168642826-b6ff523b-7f4b-46d8-92fa-134a8987597a.png" width="600">
 
 4. Navigate back to the Logic App Designer.
 
@@ -252,7 +253,7 @@ We will now configure the Logic App to execute your created Azure Function when 
    * This object is stored inside a JSON object **(green box)**.
    * This JSON object is stored inside an array **(orange box)**.
    * This array is stored inside the JSON object **(purple box)** which is generated from the current HTTP trigger. 
-<img src="https://user-images.githubusercontent.com/53897474/168402456-45495317-f9c4-4569-adbc-a245a91621c1.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168642941-195f39cd-eee4-4107-a0d4-eb5fc183ec07.png" width="600">
 
 ___
 
@@ -270,12 +271,12 @@ We will now configure the Logic App to execute your Azure Function when a condit
 1. In the Logic App Designer, scroll down to step 9, **Condition**, and click to open. The current condition is set to "ButtonPress = 0". 
 2. On the **True** block, click **Add Action**. 
 3. Search for **Azure Function** and add it to the workflow. Your created Azure Function should appear. 
-<img src="https://user-images.githubusercontent.com/53897474/168180743-06eebbf4-edc6-483a-8d4b-2d61b69d8062.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168643108-fd4c802e-17c1-4bae-84b3-64268cc1f137.png" width="600">
 
 ___
 
 4. Set the **Request Body** to **latlong**
-<img src="https://user-images.githubusercontent.com/53897474/168183754-d945c083-3d60-4b7d-a9ee-56ae43b82086.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168643390-0b8788df-373d-4832-adf9-ef00321d94c6.png" width="600">
 
 The Logic App will now execute the Azure Function when it receives a telemetry message from IoT Hub where "ButtonPress = 0". All incoming messages should therefore trigger the function so long as the Microcontroller's blue user button is not pressed.
 
@@ -283,20 +284,20 @@ The Logic App will now execute the Azure Function when it receives a telemetry m
 At this stage in the Logic App, the Azure Function has been executed and sent back the metadata of a mapsheet in JSON format. We must parse this JSON format before being able to send the metadata in an email.  
 1. Create a new action below by selecting **Add an action**. 
 2. Search for the **Parse JSON** built-in operation and select it. 
-<img src="https://user-images.githubusercontent.com/53897474/168183997-2822e4a9-2b7d-41b2-a853-30b33ffdb6dd.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168643716-ba41e765-ec19-49d4-a56c-57059e9257cb.png" width="600">
 
 ___
 
 3. For **Content**, choose **Body** from your your created Azure Function. 
 4. For **Schema**, copy and paste the code from `parse_JSON_schema.txt`.
-<img src="https://user-images.githubusercontent.com/53897474/168404633-ca2caa25-7c1b-407b-bb8b-21dec520d831.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168644077-a80386b3-7eb8-4334-91a8-845bb00fa6a8.png" width="600">
 
 ___
 
 We will now use the parsed metadata to construct an email. 
 1. Add another action by selecting **Add an action**.
 2. Search for **Outlook**, and choose **Send an email (V2)**
-<img src="https://user-images.githubusercontent.com/53897474/168404981-ed629e74-062a-4152-b6b6-ce0bb1b33e51.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168644274-01776dcd-92c0-43e2-b9ae-859897ca0183.png" width="600">
 
 ___
 
@@ -312,7 +313,7 @@ ___
 1. Navigate to the Logic App Overview
 2. Click on a succeeded run
 3. Click **Resubmit** to run the payload again with the new changes to the logic app.
-<img src="https://user-images.githubusercontent.com/53897474/168349096-b0270a96-fdcf-4e29-b842-cc7f1bd6fc37.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168644484-7526f378-6371-4fab-a188-92e3dc3b6e03.png" width="600">
 
 ___
 
