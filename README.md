@@ -42,15 +42,15 @@ ___
 ___
 
 4. Choose a folder location for your project workspace and choose **Select**. It is recommended that you create a new folder or choose an empty folder as the project workspace.
-5.  Provide the following information at the prompts:
-   *  Select a language for your function project: Choose **Python**.
-   *  Select a Python alias to create a virtual environment: Choose **py -3.9** or the folder location of your python 3.9.12.  
-      <img src="https://user-images.githubusercontent.com/53897474/168636384-6d6270a1-2134-41f5-a517-4073482ecfc7.png" width="600">
+5. Provide the following information at the prompts:
+   * Select a language for your function project: Choose **Python**.
+   * Select a Python alias to create a virtual environment: Choose **py -3.9** or the folder location of your python 3.9.12.  
+   <img src="https://user-images.githubusercontent.com/53897474/168636384-6d6270a1-2134-41f5-a517-4073482ecfc7.png" width="600">
 
-   *  Select a template for your project's first function: Choose **HTTP trigger**.
-   *  Provide a function name: Type **CopernicusFunction**.
-   *  Authorization level: Choose **Anonymous**, which enables anyone to call your function endpoint.
-   *  Select how you would like to open your project: Choose **Add to workspace**.
+   * Select a template for your project's first function: Choose **HTTP trigger**.
+   * Provide a function name: Type **CopernicusFunction**.
+   * Authorization level: Choose **Anonymous**, which enables anyone to call your function endpoint.
+   * Select how you would like to open your project: Choose **Add to workspace**.
 6. Using this information, Visual Studio Code generates an Azure Functions project with an HTTP trigger. You can view the local project files in the Explorer.
 
 # Configure the python function
@@ -184,12 +184,12 @@ Now we will create a logic app to construct an automated workflow.
 2. Type **Logic app** in the search box and select it from the drop-down list. 
 3. On the Logic app overview page, select **Create**.
 4. Enter the following information for the Logic app: 
-* **Subscription**: Select your existing subscription or create a new one.
-* **Resource Group**: Select your existing Resource Group or create a new one.
-* **Logic App name**: Choose a name for your Logic App. This can be anything.
-* **Region**: Use the same location as your resource group.
-* **Enable log analytics**: Select **No**
-* **Plan type**: Select **Consumption**
+   * **Subscription**: Select your existing subscription or create a new one.
+   * **Resource Group**: Select your existing Resource Group or create a new one.
+   * **Logic App name**: Choose a name for your Logic App. This can be anything.
+   * **Region**: Use the same location as your resource group.
+   * **Enable log analytics**: Select **No**
+   * **Plan type**: Select **Consumption**
 <img src="https://user-images.githubusercontent.com/53897474/168641757-8ce53b9e-7d27-487f-82aa-aca1a7eb645c.png" width="500">
 
 5. Select **Review + Create**, and then **Create**.
@@ -212,7 +212,7 @@ ___
 6. At the top toolbar, select **Designer** to open the design view.
 7. Select the first block, the Trigger, to open it.
 8. Copy the **HTTP POST URL**. We will need it for the next step.  
-<img src="https://user-images.githubusercontent.com/53897474/168642319-620a4689-3306-4e8a-b00e-4f9018cb948d.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168642319-620a4689-3306-4e8a-b00e-4f9018cb948d.png" width="500">
 9. Navigate back to your Azure Portal home screen.
 
 # Create a subscription event
@@ -240,7 +240,7 @@ Your Azure IoT Hub and your Logic App should now be connected. Azure IoT Hub wil
 ___
 
 3. In the **run history**, you can inspect the details of the successful run. Scrolling down to **Parse JSON telemetry string** would show the received data payload from the sensor.
-<img src="https://user-images.githubusercontent.com/53897474/168642826-b6ff523b-7f4b-46d8-92fa-134a8987597a.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168642826-b6ff523b-7f4b-46d8-92fa-134a8987597a.png" width="500">
 
 4. Navigate back to the **Logic App Designer**.
 
@@ -271,7 +271,7 @@ ___
    * To change the condition to your own criteria, you must add your desired variable from the **Dynamic Content**.
    * Because the sensor telemetry messages are imported as text strings, we will need to convert them into integers using the `int()` function.
    * For creating a condition with variable `Humidity`, you will click on the `Humidity` variable under `7. Parse JSON telemetry string`, and enclose it inside the brackets of the `int()` function.  
-<img src="https://user-images.githubusercontent.com/53897474/168655095-bedb2cb2-65d7-43d3-8a5a-0f3306db842e.png" width="700">
+<img src="https://user-images.githubusercontent.com/53897474/168655095-bedb2cb2-65d7-43d3-8a5a-0f3306db842e.png" width="500">
 
 # Add the Azure Function to the Logic App
 We will now configure the Logic App to execute your Azure Function when a condition is met.  
@@ -279,7 +279,7 @@ We will now configure the Logic App to execute your Azure Function when a condit
    * You can change this to other 
 2. On the **True** block, click **Add Action**. 
 3. Search for **Azure Function** and add it to the workflow. Your created Azure Function should appear. 
-<img src="https://user-images.githubusercontent.com/53897474/168643108-fd4c802e-17c1-4bae-84b3-64268cc1f137.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168643108-fd4c802e-17c1-4bae-84b3-64268cc1f137.png" width="500">
 
 ___
 
@@ -292,7 +292,7 @@ The Logic App will now execute the Azure Function when it receives a telemetry m
 At this stage in the Logic App, the Azure Function has been executed and sent back the metadata of a mapsheet in JSON format. We must parse this JSON format before being able to send the metadata in an email.  
 1. Create a new action below by selecting **Add an action**. 
 2. Search for the **Parse JSON** built-in operation and select it. 
-<img src="https://user-images.githubusercontent.com/53897474/168643716-ba41e765-ec19-49d4-a56c-57059e9257cb.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168643716-ba41e765-ec19-49d4-a56c-57059e9257cb.png" width="500">
 
 ___
 
@@ -305,7 +305,7 @@ ___
 We will now use the parsed metadata to construct an email. 
 1. Add another action by selecting **Add an action**.
 2. Search for **Outlook**, and choose **Send an email (V2)**
-<img src="https://user-images.githubusercontent.com/53897474/168644274-01776dcd-92c0-43e2-b9ae-859897ca0183.png" width="600">
+<img src="https://user-images.githubusercontent.com/53897474/168644274-01776dcd-92c0-43e2-b9ae-859897ca0183.png" width="500">
 
 ___
 
